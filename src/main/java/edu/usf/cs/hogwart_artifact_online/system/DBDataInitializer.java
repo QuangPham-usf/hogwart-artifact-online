@@ -48,7 +48,6 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
         Wizard wizard = new Wizard();
         wizard.addArtifacts(a5);
         wizard.addArtifacts(a6);
-        wizard.setId(2);
         wizard.setName("qp");
 
         wizardRepo.save(wizard); // save wizard mean save all artifact

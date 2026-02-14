@@ -1,10 +1,7 @@
 package edu.usf.cs.hogwart_artifact_online.Wizard;
 
 import edu.usf.cs.hogwart_artifact_online.artifact.Artifact;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 // the @ is the jpa instruction, he not do work but leader, the hibernate do the work or worker
 public class Wizard implements Serializable {
     @Id// jpa lead, hibernate change it into database
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

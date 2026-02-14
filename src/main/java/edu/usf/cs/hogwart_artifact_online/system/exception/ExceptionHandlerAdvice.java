@@ -1,5 +1,6 @@
 package edu.usf.cs.hogwart_artifact_online.system.exception;
 
+import edu.usf.cs.hogwart_artifact_online.Wizard.WizardNotFoundException;
 import edu.usf.cs.hogwart_artifact_online.artifact.ArtifactNotFoundException;
 import edu.usf.cs.hogwart_artifact_online.system.Result;
 import edu.usf.cs.hogwart_artifact_online.system.StatusCode;
@@ -17,11 +18,12 @@ import java.util.Map;
 
 @RestControllerAdvice //  watch control;er
 public class ExceptionHandlerAdvice {
-    @ExceptionHandler(ArtifactNotFoundException.class)
+    @ExceptionHandler({ArtifactNotFoundException.class, WizardNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     Result handlerNotFoundException(ArtifactNotFoundException exception) {
         return new Result(false, StatusCode.NOT_FOUND, exception.getMessage(), null);
     }
+
 
     /**
      * This handles invalid inputs (Validation errors)

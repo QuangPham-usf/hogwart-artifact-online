@@ -35,7 +35,7 @@ public class WizardController {
         }
      */
     @GetMapping("/{Id}")
-    public Result findWizardById(@PathVariable String Id) {
+    public Result findWizardById(@PathVariable Integer Id) {
        Wizard wizard =  wizardService.findById(Id);
        WizardDto wizardDto = wizardDtoconverter.convert(wizard);
        return new Result(true, StatusCode.SUCCESS, "Find One Success", wizardDto);
@@ -55,6 +55,21 @@ public class WizardController {
         WizardDto finalOne = wizardDtoconverter.convert(saveOneReturn);
         return new Result(true, StatusCode.SUCCESS, "Save Success", finalOne);
     }
+
+    @PutMapping("/{Id}")
+    public Result updateWizard(@PathVariable Integer Id, @Valid @RequestBody WizardDto wizardDto) {
+        Wizard para = dtoToWizard.convert(wizardDto);
+        Wizard q1 = wizardService.update(Id,para);
+        WizardDto ans = wizardDtoconverter.convert(q1);
+        return new Result(true, StatusCode.SUCCESS, "Update Success", ans);
+    }
+
+    @DeleteMapping("/{Id}")
+    public Result deleteWizard(@PathVariable Integer Id){
+        wizardService.delete(Id);
+        return new Result(true, StatusCode.SUCCESS, "Update Success");
+    }
+
 
 }
 

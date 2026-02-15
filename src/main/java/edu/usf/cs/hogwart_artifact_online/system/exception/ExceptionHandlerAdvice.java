@@ -20,7 +20,7 @@ import java.util.Map;
 public class ExceptionHandlerAdvice {
     @ExceptionHandler({ArtifactNotFoundException.class, WizardNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    Result handlerNotFoundException(ArtifactNotFoundException exception) {
+    Result handlerNotFoundException(Exception exception) {
         return new Result(false, StatusCode.NOT_FOUND, exception.getMessage(), null);
     }
 

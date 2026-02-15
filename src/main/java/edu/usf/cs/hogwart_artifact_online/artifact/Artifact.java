@@ -53,7 +53,7 @@ public class Artifact implements Serializable {
         this.imageUrl = imageUrl;
     }
     @ManyToOne
-    @JoinColumn(name = "wiz_id")
+    @JoinColumn(name = "wiz_id")// foreign key, put above the owner where it takes it id as key and put into wiz_id
 
     private Wizard owner;
 

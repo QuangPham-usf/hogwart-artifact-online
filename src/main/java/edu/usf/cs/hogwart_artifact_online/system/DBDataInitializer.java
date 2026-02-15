@@ -20,6 +20,7 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
     // jackson transfer object to json format: serialization
     @Override
     public void run(String... args) throws Exception {
+        /*
         Artifact a4 = new Artifact();
         a4.setId("1250808601744904194");
         a4.setName("Marauder's Map");
@@ -52,5 +53,6 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
 
         wizardRepo.save(wizard); // save wizard mean save all artifact
         artifactRepo.save(a4);
+         */
     }
 }

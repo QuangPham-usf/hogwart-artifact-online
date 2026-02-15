@@ -64,6 +64,12 @@ public class ArtifactController {
         artifactService.delete(Id);
         return new Result(true, 200, "Delete Success");
     }
+
+    @PutMapping("/{wizardId}/{artifactId}")
+    public Result assignArtifact(@PathVariable Integer wizardId, @PathVariable String artifactId) {
+        artifactService.assignArtifact(artifactId,wizardId  );
+        return new Result(true, 200, "Assign Success");
+    }
 }
  /*
     @FunctionalInterface

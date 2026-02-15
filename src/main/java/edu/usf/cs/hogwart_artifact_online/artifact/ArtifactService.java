@@ -1,9 +1,13 @@
 package edu.usf.cs.hogwart_artifact_online.artifact;
 
+import edu.usf.cs.hogwart_artifact_online.Wizard.Wizard;
+import edu.usf.cs.hogwart_artifact_online.Wizard.WizardNotFoundException;
+import edu.usf.cs.hogwart_artifact_online.Wizard.WizardRepo;
 import edu.usf.cs.hogwart_artifact_online.artifact.B2B.ArtDtotoOriginal;
 import edu.usf.cs.hogwart_artifact_online.artifact.converter.ArtifactDtoConverter;
 import edu.usf.cs.hogwart_artifact_online.artifact.dto.ArtifactDto;
 import edu.usf.cs.hogwart_artifact_online.artifact.util.IdWorker;
+import edu.usf.cs.hogwart_artifact_online.system.Result;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +22,14 @@ public class ArtifactService {
     private final ArtifactDtoConverter artifactDtoConverter;
     private final IdWorker idWorker;
     private final ArtDtotoOriginal artDtotoOriginal;
+    private final WizardRepo wizardRepo;
 
-    public ArtifactService(ArtifactRepo artifactRepo, ArtifactDtoConverter artifactDtoConverter, IdWorker idWorker, ArtDtotoOriginal artDtotoOriginal) {
+    public ArtifactService(ArtifactRepo artifactRepo, ArtifactDtoConverter artifactDtoConverter, IdWorker idWorker, ArtDtotoOriginal artDtotoOriginal, WizardRepo wizardRepo) {
         this.artifactRepo = artifactRepo;
         this.artifactDtoConverter = artifactDtoConverter;
         this.idWorker = idWorker;
         this.artDtotoOriginal = artDtotoOriginal;
+        this.wizardRepo = wizardRepo;
     }
 
 
@@ -63,6 +69,19 @@ public interface Function<T, R> { take t as input, R as output
     public void delete(String Id) {
         Artifact artifact = this.artifactRepo.findById(Id).orElseThrow(() -> new ArtifactNotFoundException(Id));
         this.artifactRepo.deleteById(Id);
+    }
+
+    public void assignArtifact(String art_id, Integer wiz_id) {
+        // These must be created already in database;
+        Artifact artifact = this.artifactRepo.findById(art_id).orElseThrow(() -> new ArtifactNotFoundException(art_id));
+        Wizard wizard = wizardRepo.findById(wiz_id).orElseThrow(() -> new WizardNotFoundException(wiz_id));
+
+        // Assignment
+        // 1. First check if the artifact is already owned by someone?
+        if(artifact.getOwner() != null) {
+            artifact.getOwner().removeOneArtifact(artifact);
+        }
+        wizard.addArtifacts(artifact);
     }
 }
 

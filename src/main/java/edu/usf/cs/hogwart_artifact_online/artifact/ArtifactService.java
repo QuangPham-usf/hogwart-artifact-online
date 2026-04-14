@@ -62,7 +62,7 @@ public interface Function<T, R> { take t as input, R as output
         oldOne.setName((update.getName()));
         oldOne.setImageUrl(update.getImageUrl());
         oldOne.setDesciption(update.getDesciption());
-        Artifact newOne = artifactRepo.save(oldOne);// if there is an ID,save() will just modify else add()
+        Artifact newOne = artifactRepo.save(oldOne);// if there is an ID,save() will just modify instead of add()
 
         return newOne;
     }
@@ -81,7 +81,8 @@ public interface Function<T, R> { take t as input, R as output
         if(artifact.getOwner() != null) {
             artifact.getOwner().removeOneArtifact(artifact);
         }
-        wizard.addArtifacts(artifact);
+        wizard.addArtifacts(artifact); // No need to remove Id as we assign new Id in addArtifacts, auto remove
+        wizardRepo.save(wizard); // save wizard, artifact will be saved automatically because of cascade
     }
 }
 
@@ -91,17 +92,9 @@ public interface Function<T, R> { take t as input, R as output
 
 
 /*
-@Component
-class FunctionDto implements Function<Artifact, ArtifactDto> {
-    private final ArtifactDtoConverter artifactDtoConverter;
-
-    public FunctionDto(ArtifactDtoConverter artifactDtoConverter) {
-        this.artifactDtoConverter = artifactDtoConverter;
-    }
-
-    @Override
-    public ArtifactDto apply(Artifact artifact) {
-        return artifactDtoConverter.convert(artifact);
-    }
-}
+.map(...)	Optional<T>	KHÔNG (Chỉ đổi ruột)
+.filter(...)	Optional<T>	KHÔNG (Lọc bớt ruột)
+.get()	T (Dữ liệu thô)	CÓ (Nhưng nguy hiểm nếu hộp rỗng)
+.orElse(...)	T (Dữ liệu thô)	CÓ (An toàn, có giá trị dự phòng)
+.orElseThrow(...)	T (Dữ liệu thô)	CÓ (An toàn, ném lỗi nếu rỗng)
  */

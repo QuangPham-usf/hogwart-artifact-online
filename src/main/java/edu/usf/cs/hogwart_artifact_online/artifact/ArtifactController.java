@@ -8,11 +8,15 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+/*
+JSON -> object : deserialization
+object -> JSON : serialization
+ */
 // remember infinite recursion of one to many relationship
-// jackson just read in controller, at input param  and return
+// jackson just read in controller, in de/serialization process, at input(de)  and return(serialization)
 @RestController
 @RequestMapping("/api/v1/artifacts")
-public class ArtifactController {
+public class    ArtifactController {
     private final ArtifactService artifactService;
     private final ArtDtotoOriginal artDtotoOriginal;
     private final ArtifactDtoConverter artifactDtoConverter;
@@ -67,26 +71,19 @@ public class ArtifactController {
 
     @PutMapping("/{wizardId}/{artifactId}")
     public Result assignArtifact(@PathVariable Integer wizardId, @PathVariable String artifactId) {
-        artifactService.assignArtifact(artifactId,wizardId  );
+        artifactService.assignArtifact(artifactId,wizardId );
         return new Result(true, 200, "Assign Success");
     }
 }
  /*
     @FunctionalInterface
-public interface Function<T, R> { take t as input, R as output
+public interface name_here<T, R> { take t as input, R as output
     R apply(T t);
-
-    // 1. Full class
-class MySupplier implements Supplier<Integer> {
+public class UserToPrincipalConverter implements Function<Users, MyUserPrincipal> {
     @Override
-    public Integer get() {
-        return 42;
+    public MyUserPrincipal apply(Users user) {
+        return new MyUserPrincipal(user);
     }
-}
-
-Supplier<Integer> numberSupplier = new MySupplier();
-System.out.println(numberSupplier.get());  // 42
-
 
 }
 

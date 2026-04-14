@@ -6,7 +6,7 @@ public record WizardDto(
 
         Integer id,
 
-        @NotEmpty(message = "dit me may")
+        @NotEmpty(message = "Name empty")
         String name,
 
         Integer numberofartifact) {

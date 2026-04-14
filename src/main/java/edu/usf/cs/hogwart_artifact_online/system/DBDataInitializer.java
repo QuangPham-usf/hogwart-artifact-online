@@ -1,5 +1,7 @@
 package edu.usf.cs.hogwart_artifact_online.system;
 
+import edu.usf.cs.hogwart_artifact_online.User.UserService;
+import edu.usf.cs.hogwart_artifact_online.User.Users;
 import edu.usf.cs.hogwart_artifact_online.Wizard.Wizard;
 import edu.usf.cs.hogwart_artifact_online.Wizard.WizardRepo;
 import edu.usf.cs.hogwart_artifact_online.artifact.Artifact;
@@ -13,14 +15,18 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
     // always mark them private final
     private final ArtifactRepo artifactRepo;
     private final WizardRepo wizardRepo;
-    public DBDataInitializer(ArtifactRepo artifactRepo, WizardRepo wizardRepo) {
+    private final UserService userService;
+
+    public DBDataInitializer(ArtifactRepo artifactRepo, WizardRepo wizardRepo, UserService userService) {
         this.artifactRepo = artifactRepo;
         this.wizardRepo = wizardRepo;
+        this.userService = userService;
     }
+
     // jackson transfer object to json format: serialization
     @Override
     public void run(String... args) throws Exception {
-        /*
+        
         Artifact a4 = new Artifact();
         a4.setId("1250808601744904194");
         a4.setName("Marauder's Map");
@@ -46,6 +52,8 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
         aa.setImageUrl("bubu");
         artifactRepo.save(aa);
 
+
+
         Wizard wizard = new Wizard();
         wizard.addArtifacts(a5);
         wizard.addArtifacts(a6);
@@ -53,6 +61,12 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
 
         wizardRepo.save(wizard); // save wizard mean save all artifact
         artifactRepo.save(a4);
-         */
+
+        Users q1 = new Users();
+        q1.setPassword("ad806");
+        q1.setRoles("shit");
+        q1.setUserName("quang");
+        q1.setEnabled(true);
+        userService.save(q1);
     }
 }

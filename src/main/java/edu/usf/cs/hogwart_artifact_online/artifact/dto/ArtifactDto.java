@@ -18,3 +18,23 @@ public record ArtifactDto(
 
          WizardDto owner) {
 }
+/*
+Step 1: Read JSON
+Step 2: Create Artifact object
+Step 3: Fill fields:
+  ├─ id = "1"
+  ├─ name = "Wand"
+  └─ owner = new Wizard()
+      Step 3a: Fill Wizard fields:
+        ├─ id = 5
+        ├─ name = "Harry"
+        └─ artifacts = [Artifact, Artifact, ...]
+            Step 3a-i: For each Artifact:
+              ├─ id = ...
+              ├─ name = ...
+              └─ owner = new Wizard()  ← BACK TO WIZARD AGAIN!
+                  Step 3a-i-α: Fill Wizard fields again...
+                    └─ artifacts = [...]  ← BACK TO ARTIFACTS AGAIN!
+
+❌ INFINITE LOOP! 🔄
+ */

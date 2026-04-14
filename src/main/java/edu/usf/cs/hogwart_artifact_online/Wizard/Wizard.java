@@ -15,7 +15,11 @@ public class Wizard implements Serializable {
     private Integer id;
 
     private String name;
-    // cascade: save mutually, merge : update wizard -> update, mappedby: i dony have the foreignkey
+    // one wiz own many artifact
+    // CASCADE = "If I do something to parent, do it to children too"
+    // Persist = "when I save parent, save children too"
+    // Merge = "when I update parent, update children too"
+    // mappedby: "The foreign key is managed by the 'owner' field in Artifact class"
     @OneToMany(mappedBy = "owner", cascade = {CascadeType.PERSIST ,CascadeType.MERGE})
     private List<Artifact> artifacts = new ArrayList<>(); // should be a list here represent many
 

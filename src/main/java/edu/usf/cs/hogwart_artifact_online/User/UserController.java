@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+Valid tell Spring to check the object before it goes into the function, if it is not valid, it will throw an exception
+- Request Body tell Spring to get the data from the body of the request, and convert it to the object we want
+ */
 @RestController
 @RequestMapping("/api/v1/users")
 
@@ -48,12 +52,12 @@ public class UserController {
     public Result saveUser(@Valid @RequestBody Users user) {
         Users userSave = userService.save(user);
 
-        UserDto finalOne = userDtoConverter.convert(userSave);
+        UserDto finalOne = userDtoConverter.convert(userSave); //Convert to DTO to hide password
         return new Result(true, StatusCode.SUCCESS, "Save User Success", finalOne);
     }
 
     @PutMapping("/{Id}")
-    public Result updateWizard(@PathVariable Integer Id, @Valid @RequestBody UserDto wizardDto) {
+    public Result updateWizard(@PathVariable Integer Id, @Valid @RequestBody UserDto wizardDto) { // No password update here, need a separate function, and check the old password first
         Users para = dtoToUser.convert(wizardDto);
         Users updated = userService.update(Id,para);
         UserDto ans = userDtoConverter.convert(updated);

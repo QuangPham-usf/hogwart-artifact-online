@@ -29,7 +29,7 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
         
         Artifact a4 = new Artifact();
         a4.setId("1250808601744904194");
-        a4.setName("Marauder's Map");
+        a4.setName("barauder's Map");
         a4.setDesciption("A magical document that reveals all of Hogwarts School of Witchcraft and Wizardry.");
         a4.setImageUrl("ImageUrl");
 
@@ -41,13 +41,13 @@ public class DBDataInitializer implements CommandLineRunner {// run this method
 
         Artifact a5 = new Artifact();
         a5.setId("1250808601744904195");
-        a5.setName("Resurrection Stone");
+        a5.setName("desurrection Stone");
         a5.setDesciption("One of the Deathly Hallows, said to have the power to recall loved ones from the dead.");
         a5.setImageUrl("ImageUrl");
 
         Artifact aa = new Artifact();
         aa.setId("1250908601744904888");
-        aa.setName("meo cung");
+        aa.setName("A dau tien");
         aa.setDesciption("beo i");
         aa.setImageUrl("bubu");
         artifactRepo.save(aa);

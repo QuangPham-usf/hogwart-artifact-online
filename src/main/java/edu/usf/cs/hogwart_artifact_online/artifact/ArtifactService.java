@@ -9,6 +9,8 @@ import edu.usf.cs.hogwart_artifact_online.artifact.dto.ArtifactDto;
 import edu.usf.cs.hogwart_artifact_online.artifact.util.IdWorker;
 import edu.usf.cs.hogwart_artifact_online.system.Result;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,19 +42,6 @@ public class ArtifactService {
         return artifactDtoConverter.convert(q1);
     }
 
-
-    public List<ArtifactDto> findAll() {
-        List<Artifact> q1 = artifactRepo.findAll();
-        /*
-         @FunctionalInterface
-public interface Function<T, R> { take t as input, R as output
-    R apply(T t);  Here is what inside map
-         */
-        List<ArtifactDto> ans = q1.stream().
-                map(o1 -> artifactDtoConverter.convert(o1)).collect(Collectors.toList());
-        return ans;
-    }
-
     public Artifact save(Artifact artifact) {
         artifact.setId(idWorker.nextId() + "");
         return this.artifactRepo.save(artifact);
@@ -66,6 +55,12 @@ public interface Function<T, R> { take t as input, R as output
 
         return newOne;
     }
+
+    public Page<ArtifactDto> findAll(Pageable pageable) {
+        // Page is streamable so no need stream() and  collect(Collectors.toList())
+        return artifactRepo.findAll(pageable).map(artifactDtoConverter::convert);
+    }
+
     public void delete(String Id) {
         Artifact artifact = this.artifactRepo.findById(Id).orElseThrow(() -> new ArtifactNotFoundException(Id));
         this.artifactRepo.deleteById(Id);
@@ -84,6 +79,7 @@ public interface Function<T, R> { take t as input, R as output
         wizard.addArtifacts(artifact); // No need to remove Id as we assign new Id in addArtifacts, auto remove
         wizardRepo.save(wizard); // save wizard, artifact will be saved automatically because of cascade
     }
+
 }
 
 

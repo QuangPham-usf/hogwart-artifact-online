@@ -43,7 +43,7 @@ public class WizardController {
 
     @GetMapping
     public Result findALl() {
-        List<WizardDto> q1=  wizardService.findAll().stream().map(wizardDtoconverter::convert)// it expect a interface, but you pass funtion
+        List<WizardDto> q1=  wizardService.findAll().stream().map(wizardDtoconverter::convert)
                 .collect(Collectors.toList());
         return new Result(true, StatusCode.SUCCESS, "Find All Success", q1);
     }

@@ -5,6 +5,8 @@ import edu.usf.cs.hogwart_artifact_online.artifact.converter.ArtifactDtoConverte
 import edu.usf.cs.hogwart_artifact_online.artifact.dto.ArtifactDto;
 import edu.usf.cs.hogwart_artifact_online.system.Result;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,12 +38,23 @@ public class    ArtifactController {
         return new Result(true, 200, "Find One Success", artifactDto);
     }
 
-
+/*
+Pageable : Page number: at which page u standing at, Page size: how many data at that page, Sort: how to sort the data,a-z, price...asc, desc
+ - If we have 1 million data, we dont want to return once , too lag
+ - It provide useful info for frontend like total page, total element, current page, page size, is first page, is last page
+ */
     @GetMapping
-    public Result findAllArtifact() {
-        List<ArtifactDto> l1 = artifactService.findAll();
+    public Result findAllArtifact(Pageable pageable) {
+        Page<ArtifactDto> l1 = artifactService.findAll(pageable);
         return new Result(true, 200, "Find One Success", l1);
     }
+    /*
+    - In url : we have to pass Pagenumber, Page size, Sort  because -> new PageRequest(P, P ,S) is created
+    - if not pass in the para, PageRequest will still be created butPageab; use default value, which is page number 0, page size 20, and no sort
+    - Then PageableHandlerMethodArgumentResolver will call PageRequest.of(page, size, sort) to create a PageRequest object, and pass it to the function
+    *** PageRequest extend interface Pageable
+    - Letter sort by , khi nhập page -L nó tính offset = page * size và nó skip thật. vd page 2 * size 2 = 4, lấy từ 5 trở đi
+     */
 
     @PostMapping // Note: Typically @PostMapping uses "/api/v1/artifacts"
     public Result addArtifact(@Valid @RequestBody ArtifactDto artifactDto) {
